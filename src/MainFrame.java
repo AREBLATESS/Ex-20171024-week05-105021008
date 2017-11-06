@@ -1,9 +1,10 @@
 import jdk.nashorn.internal.scripts.JO;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -15,6 +16,7 @@ public class MainFrame extends JFrame{
     private JMenu jma = new JMenu("about");
     private JMenu jms = new JMenu("settings");
     private JMenu jmLoad = new JMenu("load");
+    int[] num = new int[49];
 //-------------------------ＡＤＤ settings//
     private JPanel jpn2 = new JPanel(new GridLayout(2,3,3,3));
 
@@ -47,14 +49,21 @@ public class MainFrame extends JFrame{
     private JMenuItem jMenuItemExit = new JMenuItem("Exit");
     private JMenuItem jMenuItemLoterry = new JMenuItem("Lottery");
     private JMenuItem jMenuItemSettings = new JMenuItem("settings");
-
-    JLabel labs[]=new JLabel[6];
-
+    // ---------------------樂透開獎------------------//
+    JLabel jlabs[]=new JLabel[6];
+    private JPanel jpn1= new JPanel(new GridLayout(1,6,3,3));
     private JInternalFrame jInternalFrame=new JInternalFrame();
     private JDesktopPane jdp = new JDesktopPane();
+    private JPanel jpnSou = new JPanel(new GridLayout(1,2,5,5));
+    private JButton jbtnLoClose =new JButton("Close");
+    private JButton jbtnLoGene = new JButton("Generate");
+
+
+    //-------------------------------------------------//
+
     private Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
     private int frmW = 600,frmH = 600;
-
+    LoginFrame lgf =new LoginFrame();
 
 
 
@@ -62,7 +71,13 @@ public class MainFrame extends JFrame{
         initComp();
     }
     private void initComp(){
-        this.setDefaultCloseOperation(2);
+        this.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                lgf.setVisible(true);
+                dispose();
+            }
+        });
         this.setBounds(dim.width/2-frmW/2,dim.height/2-frmH/2,frmW,frmH);
         this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         this.setJMenuBar(jmb);
@@ -100,13 +115,66 @@ public class MainFrame extends JFrame{
                 System.exit(0);
             }
         });
+
+        //----------------------樂透開獎----------------------//
         jMenuItemLoterry.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 jInternalFrame.setVisible(true);
+                jInternalFrame.setLayout(new BorderLayout());
 
+//                for(int i = 0; i < num.length; i++) {
+//                    num[i] = i + 1;
+//                    System.out.print(num[i]+" ");
+//                }
+//                int[] Array;
+//                Array = getRandom(num);
+//                for(int i = 0;i<6;i++){
+//                    jlabs[i]=new JLabel(Integer.toString(Array[i]));
+//                    jpn1.add(jlabs[i]);
+//                }
+                jpnSou.add(jbtnLoClose);
+                jpnSou.add(jbtnLoGene);
+                jInternalFrame.add(jpnSou,BorderLayout.SOUTH);
             }
         });
+        jbtnLoClose.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                jInternalFrame.setVisible(false);
+            }
+        });
+
+        int[] Array;
+        Array = getRandom(num);
+        for(int i = 0;i<6;i++){
+            jlabs[i]=new JLabel(Integer.toString(Array[i]));
+//                    jlabs[i].setText(Integer.toString(Array[i]));
+            jlabs[i].setOpaque(true);
+            jpn1.add(jlabs[i]);
+            jInternalFrame.setSize(200,300);
+            jInternalFrame.add(jpn1,BorderLayout.CENTER);
+            jlabs[i].setBackground(Color.yellow);
+        }
+        jbtnLoGene.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                for(int i = 0; i < num.length; i++) {
+                    num[i] = i + 1;
+//                    System.out.print(num[i]+" ");
+                }
+                int[] Array;
+                Array = getRandom(num);
+
+                for(int i = 0;i<6;i++){
+
+                    jlabs[i].setText(Integer.toString(Array[i]));
+                    }
+            }
+        });
+
+        //-----------------------------------------------------//
         jMenuItemExit.setAccelerator(KeyStroke.getKeyStroke('X', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
 
         jMenuItemSettings.addActionListener(new ActionListener() {
@@ -161,5 +229,22 @@ public class MainFrame extends JFrame{
 //        });
 
     }
+    public static int[] getRandom(int[] num)
+    {
+        int[] arr = new int[49];
+        int n;
+        for(int i = 0; i < arr.length; i++)
+        {
+//            num[i]=10;
+            n = (int)(Math.random()*(49-i));
+            arr[i] = num[n];
+            for(int j = n; j < num.length - 1; j++)
+            {
+                num[j] = num[j+1];
+            }
+        }
+        return arr;
+    }
 }
+
 //System.get(CurrentTime.Milli());

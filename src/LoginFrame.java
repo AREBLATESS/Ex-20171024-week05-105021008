@@ -7,7 +7,7 @@ public class LoginFrame extends JFrame {
     private Container cp;
     private JLabel JlabAc = new JLabel("帳號");
     private JLabel JlabPw = new JLabel("密碼");
-    private JTextArea JTa = new JTextArea();
+    private JTextField JTf = new JTextField();
     private JPasswordField JPw = new JPasswordField();
     private JButton JbtnCom = new JButton("送出");
     private JButton JbtnExit = new JButton("離開");
@@ -23,11 +23,11 @@ public class LoginFrame extends JFrame {
     public void initComp(){
         cp=this.getContentPane();
         this.setBounds(dim.width/2-frmW/2,dim.height/2-frmH/2,frmW,frmH);
-//        JTa.setHo
+//        JTf.setHo
         cp.setLayout(new GridLayout(3,2,2,2));
         cp.add(JlabAc);
         cp.add(JlabPw);
-        cp.add(JTa);
+        cp.add(JTf);
         cp.add(JPw);
         cp.add(JbtnCom);
         cp.add(JbtnExit);
@@ -43,7 +43,7 @@ public class LoginFrame extends JFrame {
         JbtnCom.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(JTa.getText().equals("h304")&&new String(JPw.getPassword()).equals("23323456") ){
+                if(JTf.getText().equals("h304")&&new String(JPw.getPassword()).equals("23323456") ){
                     MainFrame mFrm = new MainFrame();//LoginFrame.this
                     setDefaultCloseOperation(LoginFrame.DISPOSE_ON_CLOSE);
                     mFrm.setVisible(true);

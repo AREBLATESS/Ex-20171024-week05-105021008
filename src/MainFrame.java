@@ -33,14 +33,19 @@ public class MainFrame extends JFrame{
 
     //------------------- ＡＤＤ　file chooser//
     private JInternalFrame jInternalFrame2 = new JInternalFrame();
+    private JMenuItem jmiCate = new JMenuItem("Category");
     private JMenuBar jmb2 = new JMenuBar();
-
-    private JTextField jtf= new JTextField();
+    private JMenu jmn2 = new JMenu("New");
+//    private JTextField jtf= new JTextField();
     private JTextArea jta = new JTextArea();
-    private JButton jbtnDataLoad = new JButton("Load");
+    private JMenuItem jMenuItemFCLoad = new JMenuItem("Load");
+    private JMenuItem jMenuItemFCClose= new JMenuItem("Close");
+    private Container Cfc ;
+
+
+
     private JFileChooser jfc= new JFileChooser();
-    private JButton jbtnDataclose = new JButton("close");
-    private JScrollPane jsp = new JScrollPane();
+    private JScrollPane jsp = new JScrollPane(jta);
 //    private JMenu jm = new JMenu();
 //    private JMenu jm = new JMenu();
 
@@ -91,6 +96,9 @@ public class MainFrame extends JFrame{
         jmf.add(jMenuItemExit);
         jmg.add(jMenuItemLoterry);
         jms.add(jMenuItemSettings);
+        jmLoad.add(jMenuItemFCClose);
+        jmLoad.add(jMenuItemFCLoad);
+
 
       //------------- settings//
         jpn2.add(jmsFamily);
@@ -102,10 +110,17 @@ public class MainFrame extends JFrame{
       //------------//
 
         //------------file chooser//
-        jInternalFrame2.add(jmb2);
-//        jmb2.add();
-
-
+        jmf.add(jmiCate);
+        jInternalFrame2.setBounds(0,0,500,500);
+        jInternalFrame2.add(jta);
+        jmb2.add(jmn2);
+        jmn2.add(jMenuItemFCLoad);
+        jmn2.add(jMenuItemFCClose);
+        jdp.add(jInternalFrame2);
+        Cfc=jInternalFrame2.getContentPane();
+        Cfc.setLayout(new BorderLayout());
+        Cfc.add(jmb2,BorderLayout.NORTH);
+        Cfc.add(jta,BorderLayout.CENTER);
         //------------------------//
         jdp.add(jInternalFrame);
         jInternalFrame.setBounds(50,50,200,80 );
@@ -151,6 +166,7 @@ public class MainFrame extends JFrame{
             jlabs[i]=new JLabel(Integer.toString(Array[i]));
 //                    jlabs[i].setText(Integer.toString(Array[i]));
             jlabs[i].setOpaque(true);
+//            jlabs[i].setSize(30,30);
             jpn1.add(jlabs[i]);
             jInternalFrame.setSize(200,300);
             jInternalFrame.add(jpn1,BorderLayout.CENTER);
@@ -202,8 +218,15 @@ public class MainFrame extends JFrame{
                }
             }
         });
+        //File Chooser
+        jmiCate.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                jInternalFrame2.setVisible(true);
+            }
+        });
 
-        jbtnDataLoad.addActionListener(new ActionListener() {
+        jMenuItemFCLoad.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if(jfc.showOpenDialog(null) == JFileChooser.APPROVE_OPTION){
@@ -221,12 +244,12 @@ public class MainFrame extends JFrame{
                 }
             }
         });
-//        jbtnDataclose.addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//
-//            }
-//        });
+        jMenuItemFCClose.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                jInternalFrame2.setVisible(false);
+            }
+        });
 
     }
     public static int[] getRandom(int[] num)
@@ -246,5 +269,14 @@ public class MainFrame extends JFrame{
         return arr;
     }
 }
-
-//System.get(CurrentTime.Milli());
+//
+//for(int i=<0;i<6;i++){
+//jlabs[i].setText(Integer.toString(rnd.nextInt(48)+1));
+//for(int j=0;j<=i;j++){
+//if(jlabs[i].equals(jlabs[j])){
+//   i--;
+// }else{
+//}
+// }
+// }
+// }
